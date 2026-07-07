@@ -100,29 +100,40 @@ Gateway → Secure Channel → Mission Archive → Final Case Report → Archive
 
 ---
 
-## v0.3 Planned — Active Session Persistence / Restore
+## v0.3 Stable Checkpoint — Active Session Persistence / Mission Context
 
 ### Goal
 
-Prevent loss of the current day’s active operation session before the final report is archived.
+Preserve the current day’s active operation session and allow Akane to access the current mission context during Secure Channel conversations.
 
-### Required Changes
+### Completed
 
-* Save active session to localStorage
-* Restore unfinished session after refresh or browser reload
-* Preserve:
+- Save active session to localStorage
+- Restore unfinished session after refresh or browser reload
+- Preserve:
+  - Gateway input
+  - generated briefing
+  - chat history
+  - missions
+  - mission statuses
+  - current screen
+- Show `이전 작전 세션 복구` button on Gateway when a recoverable session exists
+- Add explicit `공안국 접속 종료` action
+- Clear active session only after successful Archive save or explicit End Session
+- Keep Archive data separate from the active session cache
+- Inject current mission data into Secure Channel conversations
+- Fix duplicate message transmission
+- Add an in-flight send guard to prevent overlapping Send / Enter requests
 
-  * Gateway input
-  * generated briefing
-  * chat history
-  * missions
-  * mission statuses
-  * current screen
-  * draft report if generated
-* Show `이전 작전 세션 복구` button on Gateway when recoverable session exists
-* Add explicit `공안국 접속 종료` action
-* Clear active session only after successful Archive save or explicit End Session
-* Keep Archive data separate from active session cache
+### Known Issues
+
+- Secure Channel does not always auto-scroll to the latest message after returning from Missions or Archive.
+- Mission drafting from conversation was tested but intentionally excluded from this stable checkpoint.
+- Final Case Report still uses the fixed-category format and should later transition to dynamic case entries.
+
+### Notes
+
+This checkpoint represents the last stable version before the Secure Channel auto-scroll and mission drafting experiments.
 
 ### Design Principle
 
